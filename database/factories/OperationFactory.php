@@ -17,11 +17,18 @@ class OperationFactory extends Factory
      */
     public function definition(): array
     {
+        $tz = 'Asia/Tokyo';
+        $scheduled_at = $this->faker->dateTimeBetween('-3 days', '+3 days');
+        $isPast = Carbon::instance($scheduled_at)->lt(now($tz));
+
         return [
-            // 3日前から3日後のランダムな日時
-            'scheduled_at' => $this->faker->dateTimeBetween('-3 days', '+3 days'),
-            'content' => "以下は作業に関する内容です。文章はダミーです。\n------\n" . preg_replace("/。/", "。\n\n", $this->faker->realText),
-            'notified' => false,
+            'scheduled_at' => $scheduled_at,
+            'content' => "以下は作業に関する内容です。文章はダミーです。\n------\n" . preg_replace(
+                    "/。/",
+                    "。\n\n",
+                    $this->faker->realText
+                ),
+            'notified' => $isPast,
         ];
     }
 
