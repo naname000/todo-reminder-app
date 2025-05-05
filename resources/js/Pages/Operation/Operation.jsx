@@ -1,5 +1,7 @@
 import {Link} from '@inertiajs/react';
 import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export default function Operation({operation: {id, scheduled_at, notified}}) {
   const secondsToDDHHMMSS = (seconds) => {
@@ -12,7 +14,7 @@ export default function Operation({operation: {id, scheduled_at, notified}}) {
 
     return `${days}日 ${hours}時 ${minutes}分 ${remainingSeconds}秒`;
 }
-  const diff = dayjs(scheduled_at).diff(dayjs(), 'second');
+  const diff = dayjs.utc(scheduled_at).local().diff(dayjs(), 'second');
   return (
       <div className="p-4 md:w-1/3">
         <Link href={route('operations.show', id)} className="cursor-pointer">
