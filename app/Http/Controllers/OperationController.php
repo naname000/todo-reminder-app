@@ -14,9 +14,9 @@ class OperationController extends Controller
      */
     public function index()
     {
-        $paginator = Operation::orderBy('scheduled_at', 'desc')->paginate(9);
-        $paginator = Operation::orderBy('id', 'desc')->paginate(6);
-
+        $paginator = Operation::orderBy('notified', 'asc')      // 未通知(false=0) を先
+        ->orderBy('scheduled_at', 'asc')  // その中で日時古い順
+        ->paginate(9);
         return Inertia::render('Operation/Index', [
           'operations' => $paginator
         ]);

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Operation;
 use Illuminate\Database\Seeder;
 
 class OperationSeeder extends Seeder
@@ -12,7 +12,16 @@ class OperationSeeder extends Seeder
      */
     public function run(): void
     {
-        // 10件のオペレーションを作成
-        \App\Models\Operation::factory()->count(10)->create();
+        // デフォルト（ランダム）
+        //Operation::factory()->count(4)->create();
+
+        // 昨日の予定
+        Operation::factory()->count(2)->yesterdayOperation()->create();
+
+        // 今日予定のやつ
+        Operation::factory()->count(20)->todayOperation()->create();
+
+        // 明日予定のやつ
+        Operation::factory()->count(20)->tomorrowOperation()->create();
     }
 }
