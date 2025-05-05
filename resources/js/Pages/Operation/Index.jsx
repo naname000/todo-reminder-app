@@ -18,12 +18,11 @@
 // // ・ページネーション
 //
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, Link} from '@inertiajs/react';
-import dayjs from 'dayjs';
+import {Head} from '@inertiajs/react';
 import PaginateLink from "@/Components/PaginateLink.jsx";
 import Operation from "@/Pages/Operation/Operation";
 
-export default function Index({ operations, links, auth }) {
+export default function Index({ operations, auth }) {
     return (
         <AuthenticatedLayout user={auth.user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Operation List</h2>}>
             <Head title="Operation List" />
@@ -42,9 +41,9 @@ export default function Index({ operations, links, auth }) {
 
 
             <nav className="py-6">
-                <ul className="list-style-none flex justify-center flex-wrap">
-                    {operations.total > 0 && operations.links.map((link, index) => (
-                        <div key={index}><PaginateLink index={index} link={link} length={operations.last_page} current={operations.current_page}/></div>
+                <ul className="flex justify-center flex-wrap list-none">
+                    {operations.links.map((link, index) => (
+                        <PaginateLink key={index} link={link}/>
                     ))}
                 </ul>
             </nav>

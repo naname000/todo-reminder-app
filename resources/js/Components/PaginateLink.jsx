@@ -1,20 +1,25 @@
-import NavLink from "@/Components/NavLink.jsx";
+import { Link } from '@inertiajs/react';
 
-export default function PaginateLink({link, index, length, current}) {
-    if (index < 2 || length - 1 < index || index === current) {
+export default function PaginateLink({ link }) {
+    if (link.url === null) {
         return (
-            <li>
-                <NavLink
-                    className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                    href={link.url}
-                    active={link.active}>
-                    <span dangerouslySetInnerHTML={{__html: link.label}}/>
-                </NavLink>
+            <li className="px-2 py-1 text-gray-400 cursor-default" aria-disabled="true">
+                <span dangerouslySetInnerHTML={{ __html: link.label }} />
             </li>
         );
-    } else {
-        return (
-            <div key={link.label}>.</div>
-        )
     }
+
+    return (
+        <li>
+            <Link
+                href={link.url}
+                className={`px-3 py-1 rounded-md border text-sm mx-1
+                    ${link.active
+                        ? 'bg-blue-600 text-white border-blue-600'
+                        : 'text-gray-700 border-gray-300 hover:bg-gray-100'}
+                `}
+                dangerouslySetInnerHTML={{ __html: link.label }}
+            />
+        </li>
+    );
 }

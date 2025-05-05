@@ -1,8 +1,7 @@
-import {Link, router, useForm} from '@inertiajs/react';
-import {useState} from "react";
+import {Link} from '@inertiajs/react';
 import dayjs from "dayjs";
 
-export default function Operation({operation: {id, content, scheduled_at, notified}}) {
+export default function Operation({operation: {id, scheduled_at, notified}}) {
   const secondsToDDHHMMSS = (seconds) => {
     const days = Math.floor(seconds / (3600 * 24));
     seconds %= 3600 * 24;
@@ -25,7 +24,9 @@ export default function Operation({operation: {id, content, scheduled_at, notifi
               {notified && (
                   <div className="text-xs text-red-500">通知済み</div>
               )}
-              <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 sm:mb-3">{dayjs(scheduled_at).format('YYYY年MM月DD日 HH時mm分')}</h2>
+              <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 sm:mb-3">
+                  作業予定日時: {dayjs(scheduled_at).format('YYYY年MM月DD日 HH時mm分')}
+              </h2>
               {
                   (diff > 0) && (
                       <div className="">
