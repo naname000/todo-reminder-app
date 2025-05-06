@@ -43,10 +43,9 @@ jobs:
       - name: Composer install
         run: composer install --no-progress --no-suggest --optimize-autoloader
 
-      - name: Create test .env file
+      - name: Create .env.testing for PHPUnit
         run: |
-          cat <<EOF > .env
-          APP_NAME="TODO Reminder App"
+          cat <<EOF > .env.testing
           APP_ENV=testing
           APP_KEY=base64:0000000000000000000000000000000000000000000=
           APP_DEBUG=true
@@ -59,6 +58,7 @@ jobs:
           DB_DATABASE=test_db
           DB_USERNAME=root
           DB_PASSWORD=root
+
           EOF
 
       - name: Wait for MySQL
