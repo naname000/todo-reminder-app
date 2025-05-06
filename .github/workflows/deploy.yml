@@ -9,6 +9,29 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test_db       # テスト用データベース名
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: test_db
+      DB_USERNAME: root
+      DB_PASSWORD: root
+
     steps:
       - name: コードをチェックアウト
         uses: actions/checkout@v3
@@ -20,6 +43,16 @@ jobs:
 
       - name: Composer install
         run: composer install --no-progress --no-suggest --optimize-autoloader
+
+      - name: Wait for MySQL
+        run: |
+          until mysqladmin ping -h 127.0.0.1 -uroot -proot --silent; do
+            echo "Waiting for MySQL..."
+            sleep 5
+          done
+
+      - name: Create test database
+        run: mysql -h127.0.0.1 -uroot -proot -e "CREATE DATABASE IF NOT EXISTS test_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit --configuration phpunit.xml
