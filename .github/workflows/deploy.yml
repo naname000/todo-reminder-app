@@ -136,8 +136,9 @@ jobs:
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
-          rsync -az --delete \
+          rsync -az -e "ssh -p $VPS_PORT" --delete \
             ./ $VPS_USER@$VPS_HOST:/var/www/todo-reminder-app
 
       - name: リモートでキャッシュクリア等
