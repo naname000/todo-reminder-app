@@ -130,6 +130,16 @@ jobs:
           MAIL_FROM_NAME="TODO Reminder App"
           EOF
 
+      - name: Node.js セットアップ（本番用ビルド）
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: npm install & build（本番）
+        run: |
+          npm ci
+          npm run build
+
       - name: Add VPS to known_hosts
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
