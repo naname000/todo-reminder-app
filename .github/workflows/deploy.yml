@@ -71,9 +71,6 @@ jobs:
       - name: Create test database
         run: mysql -h127.0.0.1 -uroot -proot -e "CREATE DATABASE IF NOT EXISTS test_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
-      - name: Run PHPUnit tests
-        run: vendor/bin/phpunit --configuration phpunit.xml
-
       - name: Node.js セットアップ（フロントビルド用）
         uses: actions/setup-node@v3
         with:
@@ -83,6 +80,9 @@ jobs:
         run: |
           npm ci
           npm run build
+
+      - name: Run PHPUnit tests
+        run: vendor/bin/phpunit --configuration phpunit.xml
 
   deploy:
     needs: build-and-test
