@@ -150,8 +150,9 @@ jobs:
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
-          ssh $VPS_USER@$VPS_HOST "
+          ssh -p $VPS_PORT $VPS_USER@$VPS_HOST "
             cd /var/www/todo-reminder-app &&
             composer install --no-interaction --optimize-autoloader &&
             php artisan migrate --force &&
